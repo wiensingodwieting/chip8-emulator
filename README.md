@@ -23,7 +23,7 @@ Press `Esc` or close the window to quit.
 
 ### Pong controls
 
-The bundled Pong ROM uses four keys:
+The Pong ROM used for testing uses four keys:
 
 | Player | Move up | Move down |
 | --- | --- | --- |
