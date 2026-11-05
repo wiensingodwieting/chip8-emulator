@@ -4,3 +4,4 @@
 # ROM images are supplied locally and are not part of the source distribution.
 /roms/*.ch8
 !/roms/test.ch8
+*.state

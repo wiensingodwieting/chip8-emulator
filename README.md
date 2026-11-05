@@ -21,6 +21,44 @@ A 0 B F              Z X C V
 
 Press `Esc` or close the window to quit.
 
+Extra controls:
+
+- `Space` — pause/resume
+- `Backspace` — reset the current ROM
+- `N` — execute one CPU step while paused
+- `M` — mute/unmute sound
+- `PgUp` / `PgDn` — CPU speed up/down
+- `F6` — cycle compatibility profile (`modern`, `original`, `superchip`)
+- Drag and drop a ROM file onto the window to load it
+
+### Palettes and sound
+
+- `F1` — Classic white on black
+- `F2` — Matrix green
+- `F3` — Game Boy green
+- `F4` — Cyberpunk pink
+
+The emulator plays a 440 Hz tone while a ROM's CHIP-8 sound timer is active.
+
+### Save states
+
+- `F5` saves the current emulator state beside the ROM as `<rom>.state` (for example, `pong.ch8.state`).
+- `F8` loads that file and resumes from the saved moment.
+- The state format has a magic header, version, checksum, and the size/hash of the ROM it belongs to. If the file is missing, corrupt, or belongs to another ROM, the emulator keeps running and prints a message in the terminal and on screen.
+
+### Compatibility profiles
+
+Some ROMs expect slightly different CHIP-8 behaviour. Choose a profile with `--profile` or cycle it with `F6`:
+
+- `modern` — current common behaviour: shifts use `Vy`, `Fx55/Fx65` do not change `I`, sprites are clipped at the edge.
+- `original` — older behaviour: shifts use `Vx`, `Fx55/Fx65` increment `I`, logic operations reset `VF`.
+- `superchip` — Super-CHIP style: sprites wrap around the edge, `Fx1E` sets `VF` on overflow.
+
+```bash
+./build/chip8 --profile original roms/pong.ch8
+./build/chip8 --profile superchip --scale 12 roms/pong.ch8
+```
+
 ### Pong controls
 
 The Pong ROM used for testing uses four keys:
@@ -41,6 +79,12 @@ nix develop
 cmake -B build -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
 cmake --build build
 ./build/chip8 roms/test.ch8
+```
+
+Run the automated tests with:
+
+```bash
+nix develop -c ctest --test-dir build --output-on-failure
 ```
 
 If Nix flakes are not enabled, use:
